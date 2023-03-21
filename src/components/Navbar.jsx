@@ -19,7 +19,7 @@ const Navbar = () => {
           size='large'
         />
         <Typography.Title
-          level={2}
+          level={4}
           className='logo'
         >
           <Link to='/'>Cryptoverse</Link>
