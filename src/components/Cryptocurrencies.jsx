@@ -14,9 +14,7 @@ const Cryptocurrencies = ({ simplified }) => {
     const filteredData = cryptosList?.data?.coins.filter((coin) =>
       coin.name.toLowerCase().includes(searchTerm.toLocaleLowerCase())
     );
-    if (!filteredData) {
-      return 'Not Found';
-    }
+
     setCryptos(filteredData);
   }, [cryptosList, searchTerm]);
 
@@ -49,7 +47,11 @@ const Cryptocurrencies = ({ simplified }) => {
               <Card
                 title={`${currency.rank}. ${currency.name}`}
                 extra={
-                  <img className='crypto-image' src={currency.iconUrl}></img>
+                  <img
+                    className='crypto-image'
+                    src={currency.iconUrl}
+                    alt='cryptocurrency Icon'
+                  ></img>
                 }
                 hoverable
               >
