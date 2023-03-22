@@ -1,5 +1,6 @@
 import { useGetCryptoNewsQuery } from '../services/CrptoNewsApi';
-import React from 'react';
+import { useGetCryptosQuery } from '../services/CryptoApi';
+import React, { useState } from 'react';
 import { Card, Row, Col, Avatar, Typography, Select } from 'antd';
 import moment from 'moment/moment';
 const { Text, Title } = Typography;
@@ -7,17 +8,39 @@ const { Option } = Select;
 
 const News = ({ simplified }) => {
   const demoImage =
-    'https://plus.unsplash.com/premium_photo-1671997600458-00d572868c4d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y3J5cHRvY3VycmVuY3l8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60';
+    'https://www.bing.com/th?id=OVFT.mpzuVZnv8dwIMRfQGPbOPC&pid=News';
+  const [newsCategory, setNewsCategory] = useState('Crptocurrency');
+  const { data } = useGetCryptosQuery(50);
+
   const { data: cryptoNews } = useGetCryptoNewsQuery({
-    newsCategory: 'Cryptocurrency',
+    newsCategory,
     count: simplified ? 12 : 52,
   });
 
-  if (!cryptoNews?.value) return 'Loading';
+  if (!cryptoNews?.value) return 'Loading ...';
   console.log(cryptoNews);
 
   return (
     <Row gutter={[24, 24]}>
+      {!simplified && (
+        <Col span={24}>
+          <Select
+            showSearch
+            className='select-news'
+            placeholder='select a crypto'
+            optionFilterProp='children'
+            onChange={(value) => setNewsCategory(value)}
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(option.toLowerCase()) >= 0
+            }
+          >
+            <Option value='Crptocurrency'>Cryptocurrrency</Option>
+            {data?.data?.coins.map((coin) => (
+              <Option value={coin.name}>{coin.name}</Option>
+            ))}
+          </Select>
+        </Col>
+      )}
       {cryptoNews.value.map((news, i) => (
         <Col xs={24} sm={12} lg={8} key={i}>
           <Card hoverable className='news-card'>
@@ -29,6 +52,7 @@ const News = ({ simplified }) => {
                 <img
                   src={news?.image?.thumbnail?.contentUrl || demoImage}
                   alt={news.name}
+                  style={{ height: '100px', width: '100px' }}
                 />
               </div>
               <p>
@@ -36,6 +60,23 @@ const News = ({ simplified }) => {
                   ? `${news.description.substring(0, 100)}...`
                   : news.description}
               </p>
+              <div className='provider-container'>
+                <div>
+                  <Avatar
+                    src={
+                      news.provider[0]?.image?.thumbnail?.contentUrl ||
+                      demoImage
+                    }
+                    alt='news'
+                  />
+                  <Text className='provider-name'>
+                    {news.provider[0]?.name}
+                  </Text>
+                </div>
+                <Text>
+                  {moment(news.datePublished).startOf('ss').fromNow()}
+                </Text>
+              </div>
             </a>
           </Card>
         </Col>
