@@ -21,13 +21,6 @@ const LineChart = ({ coinHistory, currentPrice, coinName }) => {
     );
   }
 
-  // {
-  //   coinHistory?.data?.history?.map((item) => {
-  //     coinPrice.push(item.price);
-  //     coinTimestamp.push(new Date(item.timestamp).toLocaleDateString());
-  //   });
-  // }
-
   const data = {
     labels: coinTimestamp,
     datasets: [

@@ -19,6 +19,7 @@ import {
   NumberOutlined,
   ThunderboltOutlined,
 } from '@ant-design/icons';
+import Loader from './Loader';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -33,13 +34,12 @@ const CryptoDetails = () => {
     timePeriod,
   });
   if (isFetching) {
-    return 'Loading';
+    return <Loader />;
   }
   const cryptoDetails = data?.data?.coin;
   console.log(coinHistory);
 
   const time = ['3h', '24h', '7d', '30d', '1y', '3m', '3y', '5y'];
-  const hours = '24';
   const stats = [
     {
       title: 'Price to USD',
@@ -49,7 +49,9 @@ const CryptoDetails = () => {
     { title: 'Rank', value: cryptoDetails.rank, icon: <NumberOutlined /> },
     {
       title: '24h Volume',
-      value: `$ ${cryptoDetails.Volume && millify(cryptoDetails.Volume)}`,
+      value: `$ ${
+        cryptoDetails['24hVolume'] && millify(cryptoDetails['24hVolume'])
+      }`,
       icon: <ThunderboltOutlined />,
     },
     {

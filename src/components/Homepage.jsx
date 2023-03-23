@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useGetCryptosQuery } from '../services/CryptoApi';
 import Cryptocurrencies from './Cryptocurrencies';
 import News from './News';
+import Loader from './Loader';
 
 const { Title } = Typography;
 const Homepage = () => {
@@ -13,8 +14,9 @@ const Homepage = () => {
   //   return 'Ops... check your internet connection...';
   // }
   const globalStats = data?.data?.stats;
+  // globalStats ? '' : 'check your connection';
   if (isFetching) {
-    return 'Loading...';
+    return <Loader />;
   }
   // console.log(data);
 

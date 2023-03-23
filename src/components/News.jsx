@@ -3,6 +3,7 @@ import { useGetCryptosQuery } from '../services/CryptoApi';
 import React, { useState } from 'react';
 import { Card, Row, Col, Avatar, Typography, Select } from 'antd';
 import moment from 'moment/moment';
+import Loader from './Loader';
 const { Text, Title } = Typography;
 const { Option } = Select;
 
@@ -17,7 +18,7 @@ const News = ({ simplified }) => {
     count: simplified ? 12 : 52,
   });
 
-  if (!cryptoNews?.value) return 'Loading ...';
+  if (!cryptoNews?.value) return <Loader />;
   // console.log(cryptoNews);
 
   return (
